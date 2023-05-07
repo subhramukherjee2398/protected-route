@@ -1,15 +1,19 @@
-import { useRoutes, Outlet, Link } from "react-router-dom";
+import { useRoutes, Outlet, Link, useNavigate } from "react-router-dom";
 import AuthConsumer from "./auth";
 
 let c = console.log.bind(document);
 
 export const LoginPage = () => {
   const [authed, dispatch] = AuthConsumer();
+  let navigate = useNavigate();
   return (
     <div>
       <h1>Login Page</h1>
       <button
-        onClick={() => dispatch({ types: "login" })}
+        onClick={() => {
+          dispatch({ types: "login" });
+          navigate("/dashboard");
+        }}
         style={{ background: "orange" }}
       >
         Login
@@ -36,11 +40,15 @@ export const HomePage = () => {
 
 export const DashboardPage = () => {
   const [authed, dispatch] = AuthConsumer();
+  let navigate = useNavigate();
   return (
     <div>
       <h1>Dashboard Page</h1>
       <button
-        onClick={() => dispatch({ types: "logout" })}
+        onClick={() => {
+          dispatch({ types: "logout" });
+          navigate("/login");
+        }}
         style={{ background: "red" }}
       >
         Login
@@ -81,9 +89,20 @@ export const Nav = () => {
 };
 
 export const SettingsPage = () => {
+    const [authed, dispatch] = AuthConsumer();
+    let navigate = useNavigate()
   return (
     <div>
       <h1>Settings Page</h1>
+      <button
+        onClick={() => {
+          dispatch({ types: "logout" });
+          navigate("/login");
+        }}
+        style={{ background: "red" }}
+      >
+        Login
+      </button>
     </div>
   );
 };
