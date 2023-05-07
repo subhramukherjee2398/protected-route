@@ -1,7 +1,7 @@
 import './App.css';
 import {Routes,Route} from 'react-router-dom'
 import {useRoutes,Outlet} from 'react-router-dom'
-import { DashboardPage, HomePage, LoginPage, SettingsPage } from './global';
+import { DashboardPage, HomePage, LoginPage, RequireAuth, SettingsPage } from './global';
 function App() {
 
   const routes  = useRoutes([
@@ -19,11 +19,11 @@ function App() {
         },
         {
           path: "/settings",
-          element: <SettingsPage/>
+          element:<RequireAuth><SettingsPage/></RequireAuth>
         },
         {
           path: "/dashboard",
-          element: <DashboardPage/>
+          element:  <RequireAuth><DashboardPage/></RequireAuth> 
         }
       ]
     },

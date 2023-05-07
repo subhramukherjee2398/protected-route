@@ -1,5 +1,6 @@
-import { useRoutes, Outlet, Link, useNavigate } from "react-router-dom";
+import { useRoutes, Outlet, Link, useNavigate, useLocation, Navigate } from "react-router-dom";
 import AuthConsumer from "./auth";
+import { Children } from "react";
 
 let c = console.log.bind(document);
 
@@ -106,3 +107,14 @@ export const SettingsPage = () => {
     </div>
   );
 };
+
+
+export function RequireAuth(){
+    const [authed] = AuthConsumer()
+    const location = useLocation()
+    return authed.auth === true ? (
+         Children
+    ):(
+        <Navigate to={'/login'} replace state={({path:location.pathname})}></Navigate>
+    )
+}
