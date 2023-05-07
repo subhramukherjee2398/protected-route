@@ -19,11 +19,11 @@ function App() {
         },
         {
           path: "/settings",
-          element:<RequireAuth><SettingsPage/></RequireAuth>
+          element:<RequireAuth Component={<SettingsPage/>}></RequireAuth>
         },
         {
           path: "/dashboard",
-          element:  <RequireAuth><DashboardPage/></RequireAuth> 
+          element:  <RequireAuth Component={<DashboardPage/>}></RequireAuth> 
         }
       ]
     },

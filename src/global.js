@@ -1,4 +1,11 @@
-import { useRoutes, Outlet, Link, useNavigate, useLocation, Navigate } from "react-router-dom";
+import {
+  useRoutes,
+  Outlet,
+  Link,
+  useNavigate,
+  useLocation,
+  Navigate,
+} from "react-router-dom";
 import AuthConsumer from "./auth";
 import { Children } from "react";
 
@@ -59,6 +66,7 @@ export const DashboardPage = () => {
 };
 
 export const Nav = () => {
+  const [{ auth }] = AuthConsumer();
   return (
     <nav>
       <ul
@@ -74,24 +82,28 @@ export const Nav = () => {
             <a style={{ color: "white" }}>login</a>
           </Link>
         </li>
-        <li style={{ margin: "0 10px" }}>
-          <Link to="/dashboard">
-            <a style={{ color: "white" }}>Dashboard</a>
-          </Link>
-        </li>
-        <li style={{ margin: "0 10px" }}>
-          <Link to="/settings">
-            <a style={{ color: "white" }}>Settings</a>
-          </Link>
-        </li>
+        {auth && (
+          <>
+            <li style={{ margin: "0 10px" }}>
+              <Link to="/dashboard">
+                <a style={{ color: "white" }}>Dashboard</a>
+              </Link>
+            </li>
+            <li style={{ margin: "0 10px" }}>
+              <Link to="/settings">
+                <a style={{ color: "white" }}>Settings</a>
+              </Link>
+            </li>
+          </>
+        )}
       </ul>
     </nav>
   );
 };
 
 export const SettingsPage = () => {
-    const [authed, dispatch] = AuthConsumer();
-    let navigate = useNavigate()
+  const [authed, dispatch] = AuthConsumer();
+  let navigate = useNavigate();
   return (
     <div>
       <h1>Settings Page</h1>
@@ -108,13 +120,16 @@ export const SettingsPage = () => {
   );
 };
 
-
-export function RequireAuth(){
-    const [authed] = AuthConsumer()
-    const location = useLocation()
-    return authed.auth === true ? (
-         Children
-    ):(
-        <Navigate to={'/login'} replace state={({path:location.pathname})}></Navigate>
-    )
+export function RequireAuth({ Component }) {
+  const [authed] = AuthConsumer();
+  const location = useLocation();
+  return authed.auth === true ? (
+    Component
+  ) : (
+    <Navigate
+      to={"/login"}
+      replace
+      state={{ path: location.pathname }}
+    ></Navigate>
+  );
 }
